@@ -46,9 +46,12 @@ chr10 protein_coding CDS 45303439 45304422 . - 0 Parent=ENSG00000256574;
 # Running the pipeline
 
 1.Data preparation
-`perl RFO_pipeline.pl --step datapre --hal example.hal --outdir output input.tsv`
+```
+perl RFO_pipeline.pl --step datapre --hal example.hal --outdir output input.tsv
+```
 
 2.Extract homologs
+
 ```
 perl RFO_pipeline.pl --step ortholog --hal example.hal --outdir output input.tsv
 cd ortholog
@@ -58,17 +61,26 @@ sh orthologStep3.sh
 ```
 
 3.Construct homolog groups
-`perl RFO_pipeline.pl --step homologGroup --hal example.hal --outdir output input.tsv`
+
+```
+perl RFO_pipeline.pl --step homologGroup --hal example.hal --outdir output input.tsv
+```
 
 4.Construct gene family
-`perl RFO_pipeline.pl --step genefamily --hal example.hal --outdir output input.tsv`
+
+```
+perl RFO_pipeline.pl --step genefamily --hal example.hal --outdir output input.tsv
+```
 
 5.Get the Reference-free Ortholog table
-`perl RFO_pipeline.pl --step merge --hal example.hal --outdir output input.tsv`
-`perl RFO_pipeline.pl --step final --hal example.hal --outdir output input.tsv`
+```
+perl RFO_pipeline.pl --step merge --hal example.hal --outdir output input.tsv
+perl RFO_pipeline.pl --step final --hal example.hal --outdir output input.tsv
+```
 
 This pipeline will output the reference-free ortholog table to `merge/merged.ortholog.table`.
 
 
-#Citation
+# Citation
+
 Reference-free whole-genome alignment promote identification of ortholog and lineage specific gene
