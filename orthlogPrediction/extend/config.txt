@@ -1,0 +1,8 @@
+formatdb = /share/app/blast-2.2.26/bin/formatdb
+blastall = /share/app/blast-2.2.26/bin/blastall
+#genewise = /ifs5/PC_PA_UN/ANIMAL/USER/GROUP1/fangqi/software/common_bin/wise2.2.0/src/bin/genewise
+#genewise = /hwfssz1/ST_DIVERSITY/PUB/USER/fangqi/software/wise2.4.1/src/bin/genewise
+genewise = /hwfssz1/ST_DIVERSITY/PUB/USER/xieduo/software/wise2.4.1/src/bin/genewise
+
+mafft = /hwfssz1/ST_DIVERSITY/PUB/USER/xieduo/software/mafft-7.394-without-extensions/bin/ginsi
+homologData = /hwfssz5/ST_DIVERSITY/B10K/PUB/local/pipeline/Birds_annotation/0.homolog_data

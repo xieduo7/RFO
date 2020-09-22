@@ -1,0 +1,54 @@
+import os
+import basic
+import subprocess
+
+def combine(path):
+    basic.testShell(path+".id.ident")
+    f = open(path+".id.ident","w+")
+    for folderName, subfolders, filenames in os.walk(path):
+            for filename in filenames:
+                if filename.find("mafft_ginsi.fa")!=-1:
+                    ident = subprocess.Popen(
+                                      ['perl',
+                                      '/hwfssz5/ST_DIVERSITY/B10K/USER/xieduo/'
+                                      + 'hwfssz1_backup/02.color/bin/muscle_identity_ortholog.pl',
+                                        folderName + "/" + filename],
+                                        stdout = f)
+                    ident.wait()
+    f.close()
+#            if os.path.splitext(filename)[-1] == ".fa"
+def getRbh(path):
+    f = open(path+".best","w+")
+#    fIdent = open(path,"r")
+#    ls = fIdent.readlines()
+    genePair = {}
+    filterOne = {}
+    filterTwo = {}
+    for l in open(path,"r"):
+       arr = l.split("\t")
+       if arr[1] in genePair.keys():
+           genePair[arr[1]].append([arr[0],arr[7],arr[8]])
+       else:
+           genePair[arr[1]]=[]
+           genePair[arr[1]].append([arr[0],arr[7],arr[8]])
+ #      if arr[1] in genePair.keys():
+  #         genePair[arr[1]][arr[0]] = [arr[7],arr[8]] 
+  #     else:
+  #         genePair[arr[1]] = {}
+  #         genePair[arr[1]][arr[0]] = [arr[7],arr[8]]
+#    f.close()
+    for gene1 in genePair.keys():
+#        sortedGene = sorted(genePair.items(), key=lambda d: (d[1][1],d[1][2]),reverse = True)
+        sortedGene = sorted(genePair[gene1], key=lambda x: (x[1],x[2]),reverse = True)
+        filterOne[sortedGene[0][0]]= []
+        filterOne[sortedGene[0][0]].append([gene1,sortedGene[0][1],sortedGene[0][2]])
+    for gene2 in filterOne.keys():
+#        print filterOne[gene2][2]
+        sortedGeneTwo = sorted(filterOne[gene2], key=lambda x: (x[1],x[2]),reverse = True)
+        #filterTwo[sortedGeneTwo[gene2][0][0]] = [gene2,sortedGeneTwo[gene2][0][1],sortedGeneTwo[gene2][0][2]]
+        filterTwo[sortedGeneTwo[0][0]] = [gene2,sortedGeneTwo[0][1],sortedGeneTwo[0][2]]
+    for gene in filterTwo.keys():
+#        f.write(gene+"\t"+filterTwo[gene][0][0]+"\t"+str(filterTwo[gene][0][1])+"\t"+str(filterTwo[gene][0][2])+"\n")
+        f.write(gene+"\t"+filterTwo[gene][0]+"\t"+str(filterTwo[gene][1])+"\t"+str(filterTwo[gene][2])+"\n")
+    f.close()    
+    
