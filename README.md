@@ -78,7 +78,7 @@ perl RFO_pipeline.pl --step merge --hal example.hal --outdir output input.tsv
 perl RFO_pipeline.pl --step final --hal example.hal --outdir output input.tsv
 ```
 
-This pipeline will output the reference-free ortholog table to `merge/merged.ortholog.table`.
+This pipeline will output the reference-free ortholog table to `final/`.
 
 
 # Citation
