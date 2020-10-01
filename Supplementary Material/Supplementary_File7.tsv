@@ -1,0 +1,61 @@
+Ensembl_Gene_ID	Trait	PMID
+ENSG00000169789	male fertility	29699335
+ENSG00000169807	male fertility	29699335
+ENSG00000267477	Systolic blood pressure	27618452
+ENSG00000267477	Presence of antiphospholipid antibodies	27098658
+ENSG00000267477	Diastolic blood pressure	27618452
+ENSG00000234719	Phenylephrine infusion rate during anesthesia	31455332
+ENSG00000234719	Systolic blood pressure	30595370
+ENSG00000234719	Heel bone mineral density	30595370
+ENSG00000273269	Dialysis-related mortality	21546767
+ENSG00000100033	Plasma free proline levels	30659259
+ENSG00000100033	Plasma free amino acid levels (adjusted for one other PFAA)	30659259
+ENSG00000100033	Metabolite levels	31628463
+ENSG00000100033	Height	30595370
+ENSG00000100033	Serum metabolite concentrations in chronic kidney disease	29545352
+ENSG00000100033	Plasma free amino acid levels (adjusted for twenty other PFAAs)	30659259
+ENSG00000100033	Amino acid levels	26068415
+ENSG00000100033	Heel bone mineral density	30048462,30595370
+ENSG00000254995	Birth weight	31043758
+ENSG00000254995	Post bronchodilator FEV1/FVC ratio	26634245
+ENSG00000171943	Heart rate in heart failure with reduced ejection fraction	31113495
+ENSG00000271723	Adult asthma	27611488
+ENSG00000224578	Systolic blood pressure	30595370
+ENSG00000224578	Blood pressure measurement (high sodium and potassium intervention)	24165912
+ENSG00000224578	Heel bone mineral density	30048462,30598549
+ENSG00000224578	Educational attainment (MTAG)	30038396
+ENSG00000224578	Cognitive performance (MTAG)	30038396
+ENSG00000269693	Platelet distribution width	27863252
+ENSG00000269693	Bipolar disorder	21254220
+ENSG00000285528	Metabolite levels (small molecules and protein measures)	27005778
+ENSG00000285528	Blood urea nitrogen levels	31152163
+ENSG00000285528	Adverse response to drug	30420678
+ENSG00000285528	Plasma free amino acid levels (adjusted for one other PFAA)	30659259
+ENSG00000285528	Glycine levels	30837465
+ENSG00000285528	Plasma free amino acid levels	30659259
+ENSG00000285528	Metabolite levels	22286219,22916037
+ENSG00000285528	Blood metabolite levels	24816252
+ENSG00000285528	Serum metabolite levels	23093944,31636271
+ENSG00000285528	Metabolic traits	21886157
+ENSG00000285528	Triglycerides	29507422
+ENSG00000285528	Plasma free amino acid levels (adjusted for twenty other PFAAs)	30659259
+ENSG00000285528	Amino acid levels	26068415
+ENSG00000285528	C-reactive protein levels	31900758
+ENSG00000285528	Serum metabolite levels (CMS)	31636271
+ENSG00000268361	Plasma amyloid beta peptide concentrations (ABx-42)	24535457
+ENSG00000268361	Height	31562340
+ENSG00000261794	Epilepsy (remission after treatment)	23962720
+ENSG00000160221	Type 1 diabetes	25751624
+ENSG00000160221	Celiac disease	22057235
+ENSG00000160221	Ankylosing spondylitis	23749187
+ENSG00000160221	Crohn's disease	18587394,21102463,26192919,28067908
+ENSG00000160221	Ulcerative colitis	21297633,26192919,28067908
+ENSG00000160221	Cerebral amyloid deposition (PET imaging)	30361487
+ENSG00000160221	Chronic inflammatory diseases (ankylosing spondylitis, Crohn's disease, psoriasis, primary sclerosing cholangitis, ulcerative colitis) (pleiotropy)	26974007
+ENSG00000160221	Inflammatory bowel disease	23128233,26192919,28067908
+ENSG00000254959	Systolic blood pressure	30578418
+ENSG00000254959	Urate levels	31578528
+ENSG00000254959	Cerebrospinal fluid sTREM-2 levels	31708768
+ENSG00000254959	Urolithiasis	30975718
+ENSG00000254959	Kidney stones	31729369
+ENSG00000254959	Coronary artery calcified atherosclerotic plaque (90 or 130 HU threshold) in type 2 diabetes	29221444

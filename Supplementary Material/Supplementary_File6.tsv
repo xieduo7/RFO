@@ -1,0 +1,262 @@
+Species	GO_ID	GO_Term	AdjustedPv	Gene_num
+Gorilla_gorilla	GO:0004984	olfactory receptor activity	3.60698793665905e-21	216
+Gorilla_gorilla	GO:0004888	transmembrane signaling receptor activity	1.21737102760679e-16	337
+Gorilla_gorilla	GO:0004930	G protein-coupled receptor activity	5.71027965225772e-16	288
+Gorilla_gorilla	GO:0060089	molecular transducer activity	4.29372792477024e-15	351
+Gorilla_gorilla	GO:0038023	signaling receptor activity	4.4152830324981e-15	350
+Gorilla_gorilla	GO:0007186	G protein-coupled receptor signaling pathway	3.42934429396487e-14	310
+Gorilla_gorilla	GO:0016021	integral component of membrane	3.10665781326128e-12	541
+Gorilla_gorilla	GO:0031224	intrinsic component of membrane	4.37675425758702e-12	543
+Gorilla_gorilla	GO:0023052	signaling	1.63285944823541e-08	502
+Gorilla_gorilla	GO:0007154	cell communication	1.97082035353802e-08	505
+Gorilla_gorilla	GO:0007165	signal transduction	4.2079548909685e-08	489
+Gorilla_gorilla	GO:0044425	membrane part	5.8894450816716e-07	573
+Gorilla_gorilla	GO:0051716	cellular response to stimulus	2.99701723645128e-05	511
+Gorilla_gorilla	GO:0003774	motor activity	3.86996642719849e-05	42
+Gorilla_gorilla	GO:0016020	membrane	0.000212051638096589	719
+Gorilla_gorilla	GO:0003777	microtubule motor activity	0.00123279002590465	27
+Gorilla_gorilla	GO:0000413	protein peptidyl-prolyl isomerization	0.00214445127498751	25
+Gorilla_gorilla	GO:0007018	microtubule-based movement	0.0033860876831333	29
+Gorilla_gorilla	GO:0050794	regulation of cellular process	0.00430548528821147	790
+Hominidae	GO:1990904	ribonucleoprotein complex	2.31435274886839e-15	42
+Hominidae	GO:1901566	organonitrogen compound biosynthetic process	3.25943706232099e-13	49
+Hominidae	GO:0043604	amide biosynthetic process	9.5856844922865e-13	41
+Hominidae	GO:0003735	structural constituent of ribosome	1.08317794314941e-11	36
+Hominidae	GO:0005840	ribosome	1.08317794314941e-11	36
+Hominidae	GO:0006412	translation	1.17501838291805e-10	38
+Hominidae	GO:0005198	structural molecule activity	3.90859097311383e-10	41
+Hominidae	GO:0044237	cellular metabolic process	3.10767260708991e-09	111
+Hominidae	GO:0008152	metabolic process	1.21769891961949e-07	128
+Hominidae	GO:0032991	protein-containing complex	1.7559989401981e-07	61
+Hominidae	GO:0044267	cellular protein metabolic process	5.09579065111199e-07	59
+Hominidae	GO:0034641	cellular nitrogen compound metabolic process	5.09579065111199e-07	78
+Hominidae	GO:1901564	organonitrogen compound metabolic process	5.09579065111199e-07	74
+Hominidae	GO:0043232	intracellular non-membrane-bounded organelle	9.17189407186822e-07	48
+Hominidae	GO:0005737	cytoplasm	1.05387505376927e-06	51
+Hominidae	GO:0006807	nitrogen compound metabolic process	1.05387505376927e-06	106
+Hominidae	GO:0044424	intracellular part	2.6945074420694e-06	84
+Hominidae	GO:0044249	cellular biosynthetic process	3.49112835721608e-06	69
+Hominidae	GO:0044444	cytoplasmic part	4.75922934415851e-06	45
+Hominidae	GO:0009058	biosynthetic process	5.95690364060056e-06	70
+Hominidae	GO:1901576	organic substance biosynthetic process	5.95690364060056e-06	69
+Hominidae	GO:0071704	organic substance metabolic process	6.02555455965758e-06	111
+Hominidae	GO:0044238	primary metabolic process	2.82054634211582e-05	106
+Hominidae	GO:0044271	cellular nitrogen compound biosynthetic process	7.66544124076217e-05	61
+Hominidae	GO:0019538	protein metabolic process	0.00016011562604396	61
+Hominidae	GO:0043229	intracellular organelle	0.000185985569482354	70
+Hominidae	GO:0016645	oxidoreductase activity, acting on the CH-NH group of donors	0.000188121823366723	5
+Hominidae	GO:0044260	cellular macromolecule metabolic process	0.000188121823366723	81
+Hominidae	GO:0005622	intracellular	0.000214885887006031	89
+Hominidae	GO:0070647	protein modification by small protein conjugation or removal	0.000230451554012123	12
+Hominidae	GO:0009987	cellular process	0.000527655649094678	142
+Hominidae	GO:0010467	gene expression	0.000756338735209226	60
+Hominidae	GO:0034645	cellular macromolecule biosynthetic process	0.000867442446691975	57
+Hominidae	GO:0043170	macromolecule metabolic process	0.00110910302576482	90
+Hominidae	GO:0016646	oxidoreductase activity, acting on the CH-NH group of donors, NAD or NADP as acceptor	0.0011135984043315	4
+Hominidae	GO:0016579	protein deubiquitination	0.00185254593664012	8
+Hominidae	GO:0036459	thiol-dependent ubiquitinyl hydrolase activity	0.00204779227120827	8
+Hominidae	GO:0004146	dihydrofolate reductase activity	0.00211930254405937	3
+Hominidae	GO:0055114	oxidation-reduction process	0.00263603543040619	18
+Hominidae	GO:0046654	tetrahydrofolate biosynthetic process	0.00283492688167085	3
+Hominidae	GO:0044464	cell part	0.00403509011612033	90
+Homininae	GO:0004984	olfactory receptor activity	1.14321484994239e-14	34
+Homininae	GO:0043604	amide biosynthetic process	6.89095801585542e-08	36
+Homininae	GO:0003735	structural constituent of ribosome	8.96141839542573e-08	32
+Homininae	GO:0006412	translation	8.96141839542573e-08	35
+Homininae	GO:1901566	organonitrogen compound biosynthetic process	8.96141839542573e-08	42
+Homininae	GO:0005840	ribosome	8.96141839542573e-08	32
+Homininae	GO:0044444	cytoplasmic part	1.19426152820871e-07	49
+Homininae	GO:1990904	ribonucleoprotein complex	1.94310768194871e-07	33
+Homininae	GO:0007186	G protein-coupled receptor signaling pathway	2.88566572232446e-07	38
+Homininae	GO:0004888	transmembrane signaling receptor activity	3.50339918100227e-06	38
+Homininae	GO:0004930	G protein-coupled receptor activity	7.00041845247521e-06	33
+Homininae	GO:0005737	cytoplasm	7.95072968996049e-06	50
+Homininae	GO:0005198	structural molecule activity	8.73809139811583e-06	35
+Homininae	GO:0038023	signaling receptor activity	9.25076374003932e-06	39
+Homininae	GO:0043229	intracellular organelle	4.65294872677963e-05	73
+Homininae	GO:0043232	intracellular non-membrane-bounded organelle	0.00013827546262408	44
+Homininae	GO:0044424	intracellular part	0.0012679070130487	77
+Homininae	GO:0036402	proteasome-activating ATPase activity	0.00278862488239248	4
+Homininae	GO:0005622	intracellular	0.00661136861867856	85
+Homininae	GO:0032991	protein-containing complex	0.00661136861867856	50
+Hominini	GO:0003735	structural constituent of ribosome	4.18900360533225e-22	52
+Hominini	GO:0005840	ribosome	4.18900360533225e-22	52
+Hominini	GO:0006412	translation	9.11501272372504e-22	56
+Hominini	GO:1990904	ribonucleoprotein complex	8.79839912933714e-21	53
+Hominini	GO:0003723	RNA binding	8.53990877887528e-17	32
+Hominini	GO:1901566	organonitrogen compound biosynthetic process	3.00103638096015e-16	60
+Hominini	GO:0005198	structural molecule activity	4.66434899382294e-16	55
+Hominini	GO:0043232	intracellular non-membrane-bounded organelle	1.3411813006019e-12	67
+Hominini	GO:0044444	cytoplasmic part	5.34469000001513e-12	64
+Hominini	GO:0005737	cytoplasm	6.76340102741885e-09	65
+Hominini	GO:0044267	cellular protein metabolic process	5.94307104414186e-07	70
+Hominini	GO:0032991	protein-containing complex	6.55239953582218e-07	71
+Hominini	GO:0043229	intracellular organelle	6.81156897786432e-07	92
+Hominini	GO:0008199	ferric iron binding	8.36332590723288e-06	7
+Hominini	GO:0006826	iron ion transport	1.33333447270204e-05	7
+Hominini	GO:0006879	cellular iron ion homeostasis	2.56332770181969e-05	7
+Hominini	GO:0044424	intracellular part	2.56332770181969e-05	98
+Hominini	GO:0055082	cellular chemical homeostasis	0.000128892166263109	8
+Hominini	GO:0044271	cellular nitrogen compound biosynthetic process	0.000185910092143176	72
+Hominini	GO:0019538	protein metabolic process	0.000187905732243088	73
+Hominini	GO:0005622	intracellular	0.000218128191163903	108
+Hominini	GO:0009055	electron transfer activity	0.000305201436162679	10
+Hominini	GO:0034645	cellular macromolecule biosynthetic process	0.000318620027422471	70
+Hominini	GO:0019725	cellular homeostasis	0.000665241965206569	11
+Hominini	GO:0044249	cellular biosynthetic process	0.00133446917195644	74
+Hominini	GO:0010467	gene expression	0.00144403077067605	71
+Hominini	GO:0020037	heme binding	0.00151257403419126	10
+Hominini	GO:1901576	organic substance biosynthetic process	0.00204373734808363	74
+Hominini	GO:1901564	organonitrogen compound metabolic process	0.00256176952279593	76
+Hominini	GO:0044464	cell part	0.00559751305600114	109
+Homo_sapiens	GO:0004984	olfactory receptor activity	1.78938602456354e-65	111
+Homo_sapiens	GO:0003735	structural constituent of ribosome	1.83424384857953e-54	121
+Homo_sapiens	GO:0005840	ribosome	2.51072617352241e-54	121
+Homo_sapiens	GO:1990904	ribonucleoprotein complex	6.09479596261796e-51	124
+Homo_sapiens	GO:0006412	translation	2.38657823218853e-48	126
+Homo_sapiens	GO:0006518	peptide metabolic process	1.38821537984677e-46	127
+Homo_sapiens	GO:0005198	structural molecule activity	1.43589828652252e-40	130
+Homo_sapiens	GO:0004930	G protein-coupled receptor activity	1.81719300786459e-36	118
+Homo_sapiens	GO:0043232	intracellular non-membrane-bounded organelle	4.37048069444826e-36	164
+Homo_sapiens	GO:1901566	organonitrogen compound biosynthetic process	1.62376228266631e-34	134
+Homo_sapiens	GO:0007186	G protein-coupled receptor signaling pathway	6.70627812409496e-32	122
+Homo_sapiens	GO:0004888	transmembrane signaling receptor activity	3.1463814689406e-29	124
+Homo_sapiens	GO:0044444	cytoplasmic part	3.07955589191278e-23	140
+Homo_sapiens	GO:0005737	cytoplasm	2.40607872212269e-19	147
+Homo_sapiens	GO:0044267	cellular protein metabolic process	5.0594977993215e-14	156
+Homo_sapiens	GO:0019538	protein metabolic process	4.86420459221045e-13	177
+Homo_sapiens	GO:0016021	integral component of membrane	1.55973936304365e-12	155
+Homo_sapiens	GO:0032991	protein-containing complex	7.11429916679297e-12	153
+Homo_sapiens	GO:1901564	organonitrogen compound metabolic process	4.66832302605508e-11	189
+Homo_sapiens	GO:0031492	nucleosomal DNA binding	1.27373003660258e-09	13
+Homo_sapiens	GO:0044425	membrane part	7.44483483185779e-09	160
+Homo_sapiens	GO:0007165	signal transduction	9.35847582735898e-09	137
+Homo_sapiens	GO:0043229	intracellular organelle	1.57724108249434e-08	189
+Homo_sapiens	GO:0044271	cellular nitrogen compound biosynthetic process	2.32832223767094e-08	160
+Homo_sapiens	GO:0034645	cellular macromolecule biosynthetic process	6.73451070081289e-08	156
+Homo_sapiens	GO:0044424	intracellular part	1.40069096740876e-07	209
+Homo_sapiens	GO:0050896	response to stimulus	1.56809869166426e-07	165
+Homo_sapiens	GO:0003682	chromatin binding	5.09346577781057e-07	14
+Homo_sapiens	GO:0051716	cellular response to stimulus	2.10703201394104e-06	139
+Homo_sapiens	GO:0005622	intracellular	2.38732210145299e-06	234
+Homo_sapiens	GO:0044249	cellular biosynthetic process	2.83874134392341e-06	164
+Homo_sapiens	GO:0010467	gene expression	6.45615535559797e-06	156
+Homo_sapiens	GO:1901576	organic substance biosynthetic process	7.23822142021401e-06	164
+Homo_sapiens	GO:0009058	biosynthetic process	9.46614682710301e-06	166
+Homo_sapiens	GO:0016020	membrane	0.000320255929476257	180
+Homo_sapiens	GO:0034641	cellular nitrogen compound metabolic process	0.000427182843670135	171
+Homo_sapiens	GO:0009987	cellular process	0.000532784701913823	376
+Homo_sapiens	GO:0044464	cell part	0.000808774313554273	237
+Homo_sapiens	GO:0020037	heme binding	0.00207965888683791	14
+Homo_sapiens	GO:0044877	protein-containing complex binding	0.00330091938063841	15
+Homo_sapiens	GO:0000785	chromatin	0.0036302558385547	20
+Homo_sapiens	GO:0009607	response to biotic stimulus	0.00405231743345055	10
+Homo_sapiens	GO:0044260	cellular macromolecule metabolic process	0.00737400821412232	190
+Homo_sapiens	GO:0008131	primary amine oxidase activity	0.00898774295342662	3
+Pan_troglodytes	GO:0006412	translation	3.66653210411473e-37	95
+Pan_troglodytes	GO:0006518	peptide metabolic process	3.66653210411473e-37	97
+Pan_troglodytes	GO:0003735	structural constituent of ribosome	3.66653210411473e-37	87
+Pan_troglodytes	GO:0005840	ribosome	4.82855287967554e-37	87
+Pan_troglodytes	GO:0043603	cellular amide metabolic process	6.29441400825196e-37	98
+Pan_troglodytes	GO:1990904	ribonucleoprotein complex	1.25484472848896e-34	89
+Pan_troglodytes	GO:1901566	organonitrogen compound biosynthetic process	2.05282859520919e-30	105
+Pan_troglodytes	GO:0000413	protein peptidyl-prolyl isomerization	3.79312444292304e-26	29
+Pan_troglodytes	GO:0005198	structural molecule activity	3.86302827931221e-26	92
+Pan_troglodytes	GO:0003755	peptidyl-prolyl cis-trans isomerase activity	2.26611347166821e-24	29
+Pan_troglodytes	GO:0016853	isomerase activity	8.9926038431636e-24	37
+Pan_troglodytes	GO:0044444	cytoplasmic part	1.06912220565897e-22	112
+Pan_troglodytes	GO:0044267	cellular protein metabolic process	1.40901032434332e-20	136
+Pan_troglodytes	GO:0043232	intracellular non-membrane-bounded organelle	9.73777332849102e-20	111
+Pan_troglodytes	GO:0005737	cytoplasm	2.98447791809356e-17	114
+Pan_troglodytes	GO:1901564	organonitrogen compound metabolic process	5.22893598409415e-16	160
+Pan_troglodytes	GO:0044271	cellular nitrogen compound biosynthetic process	1.29177035645294e-15	143
+Pan_troglodytes	GO:0019538	protein metabolic process	2.81431023350082e-14	142
+Pan_troglodytes	GO:0043229	intracellular organelle	9.23766359958943e-13	159
+Pan_troglodytes	GO:0004984	olfactory receptor activity	1.27774463394021e-12	51
+Pan_troglodytes	GO:0034645	cellular macromolecule biosynthetic process	1.63363072420203e-12	134
+Pan_troglodytes	GO:0032991	protein-containing complex	3.95425555756080e-12	121
+Pan_troglodytes	GO:0010467	gene expression	5.23492178730226e-12	139
+Pan_troglodytes	GO:0044249	cellular biosynthetic process	6.23995402332283e-12	144
+Pan_troglodytes	GO:1901576	organic substance biosynthetic process	2.22296564517383e-11	144
+Pan_troglodytes	GO:0009058	biosynthetic process	5.42196054337169e-11	145
+Pan_troglodytes	GO:0044260	cellular macromolecule metabolic process	6.34672797197073e-11	178
+Pan_troglodytes	GO:0034641	cellular nitrogen compound metabolic process	8.26144593213455e-11	155
+Pan_troglodytes	GO:0044424	intracellular part	3.12498565114197e-09	167
+Pan_troglodytes	GO:0005622	intracellular	4.04699800004495e-09	190
+Pan_troglodytes	GO:0044237	cellular metabolic process	2.61519448227137e-08	203
+Pan_troglodytes	GO:0006807	nitrogen compound metabolic process	5.1782267518543e-08	206
+Pan_troglodytes	GO:0044464	cell part	4.53492947400618e-07	196
+Pan_troglodytes	GO:0043170	macromolecule metabolic process	5.45397849169255e-07	190
+Pan_troglodytes	GO:0044238	primary metabolic process	5.78615650240771e-06	207
+Pan_troglodytes	GO:0004619	phosphoglycerate mutase activity	6.28309786277964e-06	6
+Pan_troglodytes	GO:0071704	organic substance metabolic process	9.43449526848389e-06	212
+Pan_troglodytes	GO:0009987	cellular process	9.44109989397908e-06	293
+Pan_troglodytes	GO:0004930	G protein-coupled receptor activity	1.86852914640814e-05	55
+Pan_troglodytes	GO:0007186	G protein-coupled receptor signaling pathway	0.000120709823291321	58
+Pan_troglodytes	GO:0004888	transmembrane signaling receptor activity	0.0011236135833216	58
+Pan_troglodytes	GO:0008152	metabolic process	0.00233611209852092	222
+Pan_troglodytes	GO:0000786	nucleosome	0.00268358050685464	13
+Pan_troglodytes	GO:0019843	rRNA binding	0.00329302469203046	6
+Pan_troglodytes	GO:0038023	signaling receptor activity	0.00477063394198079	59
+Pan_troglodytes	GO:0070449	elongin complex	0.00834112508999136	3
+Pongo_abelii	GO:0003735	structural constituent of ribosome	3.64896944110609e-148	232
+Pongo_abelii	GO:0005840	ribosome	1.04539293471066e-147	232
+Pongo_abelii	GO:0006412	translation	1.6463830883285e-138	245
+Pongo_abelii	GO:1990904	ribonucleoprotein complex	1.06915866049757e-135	235
+Pongo_abelii	GO:0006518	peptide metabolic process	1.08854803758122e-132	246
+Pongo_abelii	GO:0005198	structural molecule activity	9.98654283424556e-112	247
+Pongo_abelii	GO:1901566	organonitrogen compound biosynthetic process	6.21215795865334e-108	264
+Pongo_abelii	GO:0043232	intracellular non-membrane-bounded organelle	1.12170681789856e-103	311
+Pongo_abelii	GO:0044444	cytoplasmic part	3.8267783371666e-84	282
+Pongo_abelii	GO:0005737	cytoplasm	2.28674951227152e-71	293
+Pongo_abelii	GO:0044267	cellular protein metabolic process	3.71258541703699e-57	311
+Pongo_abelii	GO:0032991	protein-containing complex	5.12749751699796e-56	314
+Pongo_abelii	GO:0043229	intracellular organelle	1.90576650964481e-51	392
+Pongo_abelii	GO:0044271	cellular nitrogen compound biosynthetic process	6.89527291358035e-45	328
+Pongo_abelii	GO:0019538	protein metabolic process	4.48458730863762e-43	329
+Pongo_abelii	GO:0044424	intracellular part	5.38012463450169e-43	418
+Pongo_abelii	GO:0034645	cellular macromolecule biosynthetic process	9.81877249221606e-40	314
+Pongo_abelii	GO:1901564	organonitrogen compound metabolic process	4.83291746830323e-39	352
+Pongo_abelii	GO:0004984	olfactory receptor activity	3.35818821751252e-38	121
+Pongo_abelii	GO:0005622	intracellular	6.12687714917968e-38	460
+Pongo_abelii	GO:0010467	gene expression	3.69660193968087e-37	323
+Pongo_abelii	GO:0044249	cellular biosynthetic process	8.23770875585943e-37	334
+Pongo_abelii	GO:1901576	organic substance biosynthetic process	3.15355909774279e-36	336
+Pongo_abelii	GO:0009058	biosynthetic process	5.08804085467365e-35	338
+Pongo_abelii	GO:0034641	cellular nitrogen compound metabolic process	5.25795108576036e-30	350
+Pongo_abelii	GO:0044464	cell part	2.76269461002899e-29	468
+Pongo_abelii	GO:0044260	cellular macromolecule metabolic process	6.24781088576425e-25	386
+Pongo_abelii	GO:0044237	cellular metabolic process	6.42821757642409e-19	440
+Pongo_abelii	GO:0009987	cellular process	1.79786023435761e-17	654
+Pongo_abelii	GO:0016853	isomerase activity	4.52136116147701e-17	34
+Pongo_abelii	GO:0043170	macromolecule metabolic process	3.36896924823241e-16	413
+Pongo_abelii	GO:0000785	chromatin	3.98073136373008e-16	46
+Pongo_abelii	GO:0006807	nitrogen compound metabolic process	9.33915496585545e-16	437
+Pongo_abelii	GO:0000413	protein peptidyl-prolyl isomerization	4.17490667306312e-15	27
+Pongo_abelii	GO:0004930	G protein-coupled receptor activity	4.91634132631008e-14	123
+Pongo_abelii	GO:0007186	G protein-coupled receptor signaling pathway	6.72771193931792e-14	134
+Pongo_abelii	GO:0044238	primary metabolic process	1.03256270202634e-13	449
+Pongo_abelii	GO:0003755	peptidyl-prolyl cis-trans isomerase activity	1.53953182891569e-13	27
+Pongo_abelii	GO:0044427	chromosomal part	4.34178642063563e-13	50
+Pongo_abelii	GO:0071704	organic substance metabolic process	1.00844074838419e-11	453
+Pongo_abelii	GO:0018193	peptidyl-amino acid modification	1.27742069589956e-11	28
+Pongo_abelii	GO:0004888	transmembrane signaling receptor activity	7.79473683437443e-11	133
+Pongo_abelii	GO:0031492	nucleosomal DNA binding	1.44065814016617e-09	15
+Pongo_abelii	GO:0008152	metabolic process	5.38231135269916e-09	489
+Pongo_abelii	GO:0038023	signaling receptor activity	1.16432752734093e-08	134
+Pongo_abelii	GO:0000786	nucleosome	3.94921147488473e-08	26
+Pongo_abelii	GO:0003682	chromatin binding	3.24476269175131e-06	16
+Pongo_abelii	GO:0003723	RNA binding	3.73585885630209e-05	53
+Pongo_abelii	GO:0006091	generation of precursor metabolites and energy	0.000133086348806924	16
+Pongo_abelii	GO:0070449	elongin complex	0.000229449800320826	5
+Pongo_abelii	GO:0042162	telomeric DNA binding	0.00122333230349082	6
+Pongo_abelii	GO:0005740	mitochondrial envelope	0.00136329308068598	24
+Pongo_abelii	GO:0044446	intracellular organelle part	0.00156270677832888	125
+Pongo_abelii	GO:0005743	mitochondrial inner membrane	0.00177449114117554	17
+Pongo_abelii	GO:0044877	protein-containing complex binding	0.00259779801539773	21
+Pongo_abelii	GO:0046034	ATP metabolic process	0.00447380505097207	15
+Pongo_abelii	GO:0009055	electron transfer activity	0.00480963317316888	16
+Pongo_abelii	GO:0004619	phosphoglycerate mutase activity	0.00504990073812495	5
+Pongo_abelii	GO:0000041	transition metal ion transport	0.00947357344757807	8
+Pongo_abelii	GO:0019774	proteasome core complex, beta-subunit complex	0.00956835397721013	3
+Pongo_abelii	GO:0006096	glycolytic process	0.00956835397721013	9
