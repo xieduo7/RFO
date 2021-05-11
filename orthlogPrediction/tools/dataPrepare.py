@@ -2,6 +2,7 @@ import re
 import subprocess
 import os
 import os.path
+from collections import defaultdict
 
 def faSize(path):
     for filename in os.listdir(path):
@@ -14,34 +15,6 @@ def faTwoBit(path):
         if os.path.splitext(filename)[1] == '.fa':
             faToTwoBit = subprocess.Popen(['faToTwoBit',path+"/"+filename,path+"/"+filename+".2bit"])
             faToTwoBit.wait()
-
-def targetGffExtend(inGff,size,extend,outGff):
-    f = open(inGff,"r")
-    f1 = open(outGff,"w")
-    rChromSizes=readSize(size)
-    lines=f.readlines()
-    for l in lines:
-        l=l.rstrip("\n")
-        if l.find("mRNA")!=-1:
-            arr = l.split("\t")            
-            if int(arr[3])-int(extend) <=1:
-                arr[3]=1
-            else:
-                arr[3]=int(arr[3])-int(extend)
-            if int(arr[4])+int(extend) >=int(rChromSizes[arr[0]])+1:
-                arr[4]=int(rChromSizes[arr[0]])+1
-            else:   
-                arr[4]=int(arr[4])+int(extend)
-            arr = [str(x) for x in arr]
-            out = "\t".join(arr)       
-            f1.write(out+"\n")
-        else:
-            pass
-    f.close()
-    f1.close()
-            
-        
-
 def sizeToBed(size,refGenome):
     f=open(size,"r")
     path = os.path.splitext(size)[0]
@@ -76,11 +49,11 @@ def gffToPslBed(gff,rChromSize):
                 l=l.rstrip("\n")
                 arr=l.split("\t")
                 count+=1
-                if l.find("mRNA")!=-1:
+                if l.find("CDS")!=-1:
                         blockCount=0
                         tBaseInsert=0
                         tName=arr[0]
-                        qName=re.search(r'ID=([^;]+);',arr[-1]).group(1)
+                        qName=re.search(r'Parent=([^;]+);',arr[-1]).group(1)
                         strand=arr[6]
                         tStart=int(arr[3])-1
                         tEnd=int(arr[4])
@@ -100,61 +73,38 @@ def gffToPslBed(gff,rChromSize):
         f.close()
         psl.close()
         bed.close()
-def gffToPslNoExtend(gff,rChromSize):
-        rChromSizes=readSize(rChromSize)
-        f=open(gff,"r")
-        psl=open(gff+".noextend.psl",'w')
-        lines=f.readlines()
-        count=0
-        for l in lines:
-                l=l.rstrip("\n")
-                arr=l.split("\t")
-                count+=1
-                if l.find("mRNA")!=-1:
-                        blockCount=0
-                        tBaseInsert=0
-                        tName=arr[0]
-                        qName=re.search(r'ID=([^;]+);',arr[-1]).group(1)
-                        strand=arr[6]
-                        tStart=int(arr[3])-1
-                        tEnd=int(arr[4])
-                        qChromSize = tEnd-tStart
-                        output = str(qChromSize)+"\t"+str(0)+"\t" \
-                                +str(0)+"\t"+str(0)+"\t"+str(0)+"\t"+str(0)+"\t" \
-                                +str(0)+"\t"+str(0)+"\t" \
-                                +strand+"\t"+qName+"\t"+str(qChromSize)+"\t"   \
-                                +str(0)+"\t"+str(qChromSize)+"\t" \
-                                +tName+"\t"+str(rChromSizes[tName])+"\t"+str(tStart)+"\t"+str(tEnd)+"\t" \
-                                +str(1)+"\t"+str(qChromSize)+",\t"+str(0)+",\t"+str(tStart)+",\n"
-                        psl.write(output)
-                else:
-                        pass
-
-        f.close()
-        psl.close()
-def targetGffNoExtend(inGff,outGff):
-    f = open(inGff,"r")
-    f1 = open(outGff,"w")
-    lines=f.readlines()
-    for l in lines:
-        l=l.rstrip("\n")
-        if l.find("mRNA")!=-1:
-            f1.write(l+"\n")
-        else:
-            pass
-    f.close()
-    f1.close()
-
 def gffToSize(inGff):
     f1 = open(inGff+".size","w")
+    gsize = defaultdict(int)
     for x in open(inGff):
         x = x.rstrip("\n")
-        if x.find("mRNA")!=-1:
+        if x.find("CDS")!=-1:
             arr = x.split("\t")
-            geneId =re.search(r'ID=([^;]+);',arr[-1]).group(1)
+            geneId =re.search(r'Parent=([^;]+);',arr[-1]).group(1)
             size = int(arr[4])-int(arr[3])+1
-            out = geneId+"\t"+str(size)+"\n"
-            f1.write(out)
+            gsize[geneId] += size
         else:
             pass
+    for g in gsize.keys():
+        out = g+"\t"+str(gsize[g])+"\n"
+        f1.write(out)
     f1.close()
+def getmRNA(inGff,spe):
+    f1 = open(spe+".mRNA.gff","w")
+    for x in open(inGff):
+        x = x.rstrip("\n")
+        arr = x.split("\t")
+        if arr[2] == "mRNA":
+            f1.write(x+"\n")
+        else:
+            pass
+def getCDS(inGff,spe):
+    f1 = open(spe+".cds.gff","w")
+    for x in open(inGff):
+        x = x.rstrip("\n")
+        arr = x.split("\t")
+        if arr[2] == "CDS":
+            f1.write(x+"\n")
+        else:
+            pass
+

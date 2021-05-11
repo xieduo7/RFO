@@ -33,7 +33,6 @@ foreach my $g1 (keys %bestPair) {
 		next if ($genePair{$g1} || $genePair{$g2});
 		($g1, $g2) = &getGeneOrder($g1, $g2);
 		my ($align1, $align2, $id, $align, $score,$gene_syn) = @{$bestPair{$g1}{$g2}};
-#        next if($gene_syn ne "Perfect");
 		push @result, "$g1\t$g2\t$align1\t$align2\t$id\t$score\t$gene_syn\tL1\n";
 #		push @copy_result, "$g2\t$g1\t$align2\t$align1\t$id\t$score\t$gene_syn\tL1\n";
 # i       print "$g1\t$g2\n";
@@ -101,7 +100,7 @@ open IN, $tab_file;
 while (<IN>) {
     chomp;
 	my ($g1, $align1, $g2, $align2, $score, $id,$gene_syn,$state) = (split /\s+/)[0,5,1,6,3,4,8,9];
-	next if ($state ne "duplication" || $gene_syn eq "NO_gene_synteny" || $g1 eq $g2);
+	next if ($gene_syn eq "Orphan" || $gene_syn eq "NO_gene_synteny" || $g1 eq $g2);
 #    next if $g1 eq $g2;
 
 
@@ -124,7 +123,7 @@ foreach my $g1 (keys %hit) {
 	@{$hit{$g1}} = sort {$b->[-2] <=> $a->[-2] or $b->[-4] <=> $a->[-4] or $b->[-5] <=> $a->[-5]} @{$hit{$g1}};
 	foreach my $p (@{$hit{$g1}}) {
 		my ($g2, $align1, $align2, $id, $align, $score,$gene_syn) = @$p;
-        next if($gene_syn ne "Perfect" || $id < 30);
+    #    next if($gene_syn ne "Perfect" || $id < 30);
 		$pair{$g1}{$g2} = [$align1, $align2, $id, $align, $score, $gene_syn];
 		last;
 	}
@@ -176,7 +175,7 @@ foreach my $g1 (keys %$hit) {
         @{$hit->{$g1}} = sort {$b->[-2] <=> $a->[-2] or $b->[-4] <=> $a->[-4] or $b->[-5] <=> $a->[-5]} @{$hit->{$g1}};
         foreach my $p (@{$hit->{$g1}}) {
                 my ($g2, $align1, $align2, $id, $align, $score,$gene_syn) = @$p;
-        next if($gene_syn eq "Orphan");
+#        next if($gene_syn eq "Orphan");
                 $pair{$g1}{$g2} = [$align1, $align2, $id, $align, $score, $gene_syn];
                 last;
         }
@@ -218,7 +217,7 @@ foreach my $g1 (keys %$hit) {
         foreach my $p (@{$hit->{$g1}}) {
                 my ($g2, $align1, $align2, $id, $align, $score,$gene_syn) = @$p;
                 $pair{$g1}{$g2} = [$align1, $align2, $id, $align, $score, $gene_syn];
-        next if($gene_syn eq "DownNone" || $gene_syn eq "NO_gene_synteny" || $gene_syn eq "UpNone" ||$gene_syn eq "Orphan");
+#        next if($gene_syn eq "DownNone" || $gene_syn eq "NO_gene_synteny" || $gene_syn eq "UpNone" ||$gene_syn eq "Orphan");
                 last;
         }
 }

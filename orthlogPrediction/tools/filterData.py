@@ -2,9 +2,75 @@ import os
 import basic
 import subprocess
 import dataPrepare
+from collections import defaultdict
+def filtering(file1):
+    fb = open(file1+".filtered","w+")
+    for line in open(file1):
+        line = line.rstrip("\n")
+        arr = line.split()
+        if(arr[-1] == "ortholog_one2one"):
+            fb.write(line+"\n")
+        else:
+            if(arr[-2] == "Orphan_genome_synteny" or arr[-2] == "genome_synteny"):
+                pass
+            else:
+                fb.write(line+"\n")
+    fb.close()
+def orthClass(file1):
+    fb = open(file1+".pos.ortholog","w+")
+    for line in open(file1):
+        line = line.rstrip("\n")
+        arr = line.split()
+        if(arr[-4] == "ortholog_one2one"):
+            fb.write(line+"\tortholog_one2one\n")
+        else:
+            if(arr[-1] == "ortholog_one2one"):
+                fb.write(line+"\tanc_copy\n")
+            else:
+                fb.write(line+"\tsegmental_or_tandem_duplication\n")
+    fb.close()    
+def merge(file1,file2,file3):
+    dictGenomeSyn = defaultdict(str)
+    dictGeneSyn = defaultdict(dict)
+    for x in open(file2):
+        x = x.rstrip("\n")
+        arr = x.split()
+        dictGenomeSyn[arr[0]] = arr[1]
+    for x in open(file3):
+        x = x.rstrip("\n")
+        arr = x.split()
+        dictGeneSyn[arr[0]][arr[1]] = arr[-2]
+    fb = open(file1+".pos.ortholog","w+")
+    for x in open(file1):
+        x = x.rstrip("\n")
+        arr = x.split()
+        if(arr[-1] == "ortholog_one2one"):
+            fb.write(x+"\tortholog_one2one\n")
+        else:
+            if(dictGeneSyn[arr[0]][arr[1]]):
+                if(dictGeneSyn[arr[0]][arr[1]] == "NO_gene_synteny"):
+                    if(dictGenomeSyn[arr[0]] == arr[1]):
+                        fb.write(x+"\tgenome_synteny\n")
+                    else:
+                        pass
+            #            fb.write(x+"\t"+"no_synteny\n")
+                else:
+                    if(dictGeneSyn[arr[0]][arr[1]] == "DownNone" or dictGeneSyn[arr[0]][arr[1]] == "UpNone" or dictGeneSyn[arr[0]][arr[1]] == "Orphan"):
+                        if(dictGenomeSyn[arr[0]] == arr[1]):
+                            fb.write(x+"\t"+dictGeneSyn[arr[0]][arr[1]]+"_genome_synteny\n")
+                        else:
+                            pass
+                            #fb.write(x+"\t"+dictGeneSyn[arr[0]][arr[1]]+"\n")
+                    else:
+                        if(dictGenomeSyn[arr[0]] == arr[1]):
+                            fb.write(x+"\t"+dictGeneSyn[arr[0]][arr[1]]+"_genome_synteny\n")
+                        else:
+                            fb.write(x+"\t"+dictGeneSyn[arr[0]][arr[1]]+"\n")
+    fb.close()    
+            
+    
 
-
-def makeOrth(result,rbh,destfileA,destfileB):
+def makeRbh(result,rbh,destfileA,destfileB):
     fa = open(destfileA,"w+")
     fb = open(destfileB,"w+")
     header = "#Referrence\tSubject\tR_ratio\tS_ratio\tIdentity\tSocre\tState\tLevel"

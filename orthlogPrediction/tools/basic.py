@@ -41,34 +41,16 @@ def calculateOverlap(bed,ortholog):
     mergeBed.wait()
     mergedBed.close()
     overlapLen = {}
-    refer = {}
-    for model in open(ortholog):
-        info = model.split("\t")
-        if info[0] in refer:
-            if info[1] in refer[info[0]].keys():
-                pass
-            else:
-                refer[info[0]][info[1]]= []
-                refer[info[0]][info[1]].append(info[2])
-                refer[info[0]][info[1]].append(info[3])
-        else:
-            refer[info[0]]={}
-            refer[info[0]][info[1]] = []
-            refer[info[0]][info[1]].append(info[2])
-            refer[info[0]][info[1]].append(info[3])
     for l in open(bed+".sorted.merge.bed"):
         arr = l.split("\t")
         geneA = arr[0].split("-")[0]
         geneB = arr[0].split("-")[1]
-        if int(arr[1]) > int(refer[geneA][geneB][0])-1:
-            start = int(arr[1])
-        else:
-            start = int(refer[geneA][geneB][0])-1
-        if int(arr[2]) < int(refer[geneA][geneB][1]):
-            end = int(arr[2])
-        else:
-            end = int(refer[geneA][geneB][1])
+        start = int(arr[1])
+        end = int(arr[2])
         length = end - start
+        #print end
+    #    print start
+        #print length
 #        length = int(arr[2]) - int(arr[1])
         if geneA in overlapLen.keys():
             if geneB in overlapLen[geneA].keys():

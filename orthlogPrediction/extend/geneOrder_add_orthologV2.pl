@@ -123,7 +123,7 @@ sub gene_synteny_add
 		my ($chr1, $bg1, $ed1, $strand1, $index1) = @{$hsp2->{$g1_id}};
 #		my ($chr1, $bg1, $ed1, $strand1, $index1) = @{$hsp2->{$g1}};
 #		die "$g2" unless ($hsp2->{$g2});
-		die "$g2_id" unless ($hsp2->{$g2_id});
+#		die "$g2_id" unless ($hsp2->{$g2_id});
 #		my ($chr2, $bg2, $ed2, $strand2, $index2) = @{$hsp2->{$g2}};
 		my ($chr2, $bg2, $ed2, $strand2, $index2) = @{$hsp2->{$g2_id}};
 		$ind{$chr1}{$index1} = 1;

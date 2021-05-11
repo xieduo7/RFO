@@ -27,7 +27,7 @@ and genomes.
 
     perl COP.pl --step datapre  --hal 200m-v1.hal inputTable
     perl COP.pl --step ortholog --hal 200m-v1.hal inputTable
-    perl COP.pl --step genefam  --hal 200m-v1.hal inputTable
+    perl COP.pl --step merge  --hal 200m-v1.hal inputTable
 
 =cut
 
@@ -40,7 +40,6 @@ GetOptions(
     "step:s"=>\$step,
     "hal:s" =>\$hal,
     "outdir:s" =>\$outdir,
-#    "outgroup:s"=>\$outgroup,
     "help!"=>\$Help
 );
 $outdir ||= ".";
@@ -96,9 +95,9 @@ if ($step eq "ortholog"){
         `ln -s  $outdir/data/gff/$species[1].gff $outdir/ortholog/$pair/annotation/$species[1].gff`;
         `ln -s $outdir/data/cds/$species[0].cds $outdir/ortholog/$pair/annotation/$species[0].fa`;
         `ln -s $outdir/data/cds/$species[1].cds $outdir/ortholog/$pair/annotation/$species[1].fa`;
-        $cmdStep1 .= "cd $outdir/ortholog/$pair && python $Bin/orthlogPrediction/orthologPredict.py preprocess --hal $hal --refGenome $species[0] --targetGenomes $species[1] --extend 0 && python $Bin/orthlogPrediction/orthologPredict.py projection --hal $hal --refGenome $species[0] --targetGenomes $species[1] --extend 0\n";
+        $cmdStep1 .= "cd $outdir/ortholog/$pair && python $Bin/orthlogPrediction/orthologPredict.py preprocess --hal $hal --refGenome $species[0] --targetGenomes $species[1] && python $Bin/orthlogPrediction/orthologPredict.py projection --hal $hal --refGenome $species[0] --targetGenomes $species[1]\n";
         $cmdStep2 .= "sh $outdir/ortholog/$pair/ortholog/$pair.gff.intersect.ortholog.overlap.mafft.sh\n";
-        $cmdStep3 .= "cd $outdir/ortholog/$pair && python $Bin/orthlogPrediction/orthologPredict.py combine --hal $hal --refGenome $species[0] --targetGenomes $species[1] --extend 0 && python $Bin/orthlogPrediction/orthologPredict.py final --hal $hal --refGenome $species[0] --targetGenomes $species[1] --extend 0\n";
+        $cmdStep3 .= "cd $outdir/ortholog/$pair && python $Bin/orthlogPrediction/orthologPredict.py combine --hal $hal --refGenome $species[0] --targetGenomes $species[1] && python $Bin/orthlogPrediction/orthologPredict.py final --hal $hal --refGenome $species[0] --targetGenomes $species[1]\n";
     }
     open OUT1,">$outdir/ortholog/orthologStep1.sh" || die "fail creat orthologStep1.sh"; 
     print OUT1 $cmdStep1;
@@ -129,117 +128,13 @@ if($step eq "merge"){
         }
         close GFF;
     }
-    foreach my $pairwise(@combine){
-#        storeGene("$outdir/ortholog/${pairwise}/ortholog/${pairwise}.gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab",\%genes);
-    }
-    foreach my $species(@order){
-#        my @subfiles = glob("$outdir/ortholog/*/ortholog/${species}-*.gff.intersect.ortholog.overlap.tab.best");
-        my @subfiles = glob("$outdir/ortholog/*/ortholog/${species}-*.gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.best");
-        my (%ortholog,@taxa);
-        &readOrtholog(\@subfiles,\%ortholog,\@taxa,\%genes,$species);
-        my $out;
-#        foreach my $ref_gene(sort keys %ortholog){
-        foreach my $ref_gene(sort keys %{$genes{$species}}){
-            #print "$ref_gene\n";
-            $ref_gene="$species-$ref_gene";
-            $out .= "$species\t$ref_gene\t";
-            foreach (@taxa){
-                my $abb_name=$_;
-                if (exists $ortholog{$ref_gene}{$abb_name}){
-                    $out .= "$ortholog{$ref_gene}{$abb_name}\t";
-                }
-                else{
-                    $out .= "-\t";
-                }
-            }
-            $out .= "\n";
-        }
-    open OUT, ">$outdir/merge/${species}_ortholog_group" or die"!";
-    print OUT "reference\t${species}\t".join ("\t", @taxa)."\n";
-    print OUT $out;
-    close OUT;
-    }
-    my @orthologTab = glob("$outdir/merge/*_ortholog_group");
-    my @container;
-    my @intial_table;
-    my $flag=0;
-    my $out_dir="$outdir/merge";
-    foreach my $ref(@order){
-        if($flag==0){
-            push(@intial_table,"$outdir/merge/${ref}_ortholog_group");
-            push(@container,$ref);
-            $flag=1;
-        }
-        else{
-            mergeOrthologTable(\@intial_table,$ref,"$outdir/merge/${ref}_ortholog_group",$out_dir,\@container);
-        }
-    }
-    my $fileName = join("-",@order);
-    fillIn("$outdir/merge/${fileName}.ortholog.table",\%genes,"$outdir/merge/merged.ortholog.table");
-#    `cp $outdir/merge/${fileName}.ortholog.table $outdir/merge/merged.ortholog.table`;
+    `cat $outdir/ortholog/*/ortholog/*.gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog.class.filtered.class.pos.ortholog|awk '{print \$1"\t"\$2"\t"int(\$5)}' >$outdir/merge/cluster.table`;
+    `$Bin/geneFamily/hcluster_sg -w 0 -c -b 0 $outdir/merge/cluster.table >$outdir/merge/cluster.table.hcluster`;
+    `perl $Bin/geneFamily/hcluster_stat.pl $outdir/data/category $outdir/merge/cluster.table.hcluster`;
+    ###
+    fillIn("$outdir/merge/cluster.table.hcluster.ortholog",\%genes,"$outdir/merge/cluster.table.hcluster.ortholog.full","$outdir/merge/cluster.table.hcluster.stat.count");
 }
-
-
-############################################
-###homologous goup construction           ##
-############################################
-if($step eq "homologGroup"){
-    testmkdir("$outdir/homologGroup");
-    `cat $outdir/ortholog/*/ortholog/*.gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab|cut -f 1,2,4|sort|uniq >$outdir/homologGroup/homolog.forHC`;
-    `$Bin/geneFamily/hcluster_sg -w 0 -c $outdir/homologGroup/homolog.forHC >$outdir/homologGroup/homologGroup.cluster`;
-}
-
-
-############################################
-###gene family construction               ##
-############################################
-if($step eq "genefamily"){
-    testmkdir("$outdir/genefamily/input");
-    testmkdir("$outdir/genefamily/output");
-    my @pepfiles = glob("$outdir/data/pep/*.pep");
-    my $files = join(" ",@pepfiles);
-    `cat $files >$outdir/genefamily/input/all.pep`;
-    my @allgene;
-    getAll("$outdir/genefamily/input/all.pep",\@allgene);
-    `ln -s $outdir/genefamily/input/all.pep $outdir/genefamily/output/all.pep`;
-    `formatdb -i $outdir/genefamily/input/all.pep -p T -o T`;
-    `perl $Bin/geneFamily/fastaDeal.pl -cutf 50 $outdir/genefamily/output/all.pep -outdir $outdir/genefamily/output`;
-    my @subfiles = glob("$outdir/genefamily/output/all.pep.cut/all.pep*");
-    my $blast_shell = "$outdir/genefamily/geneFamilyStep1.sh";
-    open OUT1,">$blast_shell" || die "fail open $blast_shell\n";
-    foreach my $subfile (@subfiles){
-        print OUT1 "blastall -p blastp -m8 -e 1e-7 -F F -d $outdir/genefamily/input/all.pep -i $subfile -o $subfile.blast.m8 \n";
-    }
-    close OUT1;
-    my $combine = "$outdir/genefamily/geneFamilyStep2.sh";
-    open OUT2,">$combine" || die "fail open $combine\n";
-    foreach my $subfile (@subfiles){
-        print OUT2"cat $subfile.blast.m8 >> $outdir/genefamily/output/all_vs_all.blast.m8\n";   
-    }
-    close OUT2;
-    create_cate_file("$outdir/data/category", \@allgene, "$outdir/data/category.gene");
-    my $cluster = "$outdir/genefamily/geneFamilyStep3.sh";
-    open OUT,">$cluster" || die "fail open $cluster\n";
-    print OUT "perl $Bin/geneFamily/solar.pl -a prot2prot -f m8 -z $outdir/genefamily/output/all_vs_all.blast.m8 > $outdir/genefamily/output/all_vs_all.blast.m8.solar.raw;\n";
-    print OUT "perl $Bin/geneFamily/filter_solar_paired_redundance.pl $outdir/genefamily/output/all_vs_all.blast.m8.solar.raw >$outdir/genefamily/output/all_vs_all.blast.m8.solar.noPaired;\n";
-    print OUT "perl $Bin/geneFamily/filter_solar_align_rate.pl $outdir/genefamily/input/all.pep $outdir/genefamily/output/all_vs_all.blast.m8.solar.noPaired 0.33 > $outdir/genefamily/output/all_vs_all.blast.m8.solar;\n";
-    print OUT "perl $Bin/geneFamily/bitScore_to_hclusterScore.pl $outdir/genefamily/output/all_vs_all.blast.m8.solar >$outdir/genefamily/output/all_vs_all.blast.m8.solar.forHC 2>$outdir/genefamily/output/all_vs_all.blast.m8.solar.forHC.warn;\n";
-    print OUT "$Bin/geneFamily/hcluster_sg -w 10 -s 0.34 -m 500 -b 0.1 -C $outdir/data/category.gene $outdir/genefamily/output/all_vs_all.blast.m8.solar.forHC >$outdir/genefamily/output/all_vs_all.blast.m8.solar.forHC.hcluster\n";
-    close OUT;
-}
-
-############################################
-###merge gene family and ortholog         ##
-############################################
-if($step eq "final"){
-    testmkdir("$outdir/final");
-    my %geneFamily;
-    hclster2Table("$outdir/genefamily/output/all_vs_all.blast.m8.solar.forHC.hcluster",\%geneFamily);
-#    hclster2Table("$outdir/homologousGroup/output/all_vs_all.blast.m8.solar.forHC.hcluster",\%geneFamily);
-    my %homologGroup;
-    hclster2Table("$outdir/homologGroup/homologGroup.cluster",\%homologGroup);
-    orthologFamily("$outdir/merge/merged.ortholog.table",\%homologGroup,"$outdir/final/final_homologGroup_ortholog.tsv");
-    orthologFamily("$outdir/merge/merged.ortholog.table",\%geneFamily,"$outdir/final/final_genefamily_ortholog.tsv");
+#
 
 }
 
@@ -260,10 +155,15 @@ sub orthologFamily{
         my $line=$_;
         my @t = split;
         shift @t;
+        shift @t;
+        splice (@t, $#t, 1);
         my %judge;
         foreach my $gene(@t){
-            if(exists $family->{$gene}){
-                $judge{$family->{$gene}}=1;
+            my @g=split(/,/,$gene);
+            foreach my $ge(@g){
+            if(exists $family->{$ge}){
+                $judge{$family->{$ge}}=1;
+            }
             }
         }
         my @family = keys%judge;
@@ -593,36 +493,45 @@ sub storeGene{
 }
 
 sub fillIn{
-    my($table,$gff_h,$out)=@_;
+    my($table,$gff_h,$out,$count)=@_;
     open TABLE,"<$table" or die"!";
     open NT,">$out" or die"!";
-    open LIST,">$out.id" or die"!";
+    open LIST,">>$count" or die"!";
     my $first_line = <TABLE>;
     chomp($first_line);
     print NT "$first_line\n";
-    my @order = split(/\s/,$first_line);
-    splice @order,0,1;
+    my @order = split(/\t/,$first_line);
+    splice @order,0,2;
+    splice @order,-1,1;
     my $count = 0;
     my %column;
     my %column_rev;
+    my $fam_no;
     foreach my $species(@order){
         $column{$species} = $count;
         $column_rev{$count} = $species;
+     #   print "$species\t$count\n";
         $count +=1;
         }
     while(<TABLE>){
         chomp;
         print NT "$_\n";
         my @t =split;
+#        $fam_no=$t[0];
         my $index=0;
-        my $ref = shift @t;
+        $fam_no = shift @t;
+        shift @t;
+        splice @t,-1,1;
         foreach my $gene(@t){
-            my $id=(split(/-/,$gene))[1];
+            my @gs=split(/,/,$gene);
+            foreach my $g(@gs){
+            my $id=(split(/-/,$g))[1];
             #print "$id\t$column_rev{$index}\n";
-            if($index==$column{$ref}){
-                print LIST "$id\n";           
-            }
+ #           if($index==$column{$ref}){
+  #              print LIST "$id\n";           
+   #         }
             $gff_h->{$column_rev{$index}}{$id}=0;
+            }
             $index +=1;
         }
     }
@@ -630,16 +539,21 @@ sub fillIn{
     foreach my $spe(keys%$gff_h){
         foreach my $genes(keys %{$gff_h->{$spe}}){
             next if($gff_h->{$spe}{$genes}==0);
-            print NT "$spe";
+             $fam_no+=1;
+            print NT "$fam_no\t1";
+            print LIST "$fam_no";
             for(my $i=0;$i<$#order+1;$i++){
+
                 if($i==$column{$spe}){
                     print NT "\t$spe-$genes";
-                    print LIST "$genes\n";
+                    print LIST "\t1";
                 }else{
                     print NT "\t-";
+                    print LIST "\t0";
                 }
             }
-            print NT "\n";
+            print NT "\t1\n";
+            print LIST "\n";
 
         }
     }

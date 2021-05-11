@@ -40,16 +40,6 @@ Input.add_argument(
     help="list of genomes to use. Required",
     required=True
     )
-Input.add_argument(
-    "--extend",
-    help="the length of extending in extract alignment. Required",
-    required=True
-    )
-#Input.add_argument(
-#    "option",
-#    help="choose a process to run,"
-#    + "preprocess/filter"
-#    )
 args = parser.parse_args()
 
 ###
@@ -60,30 +50,14 @@ if args.option == "preprocess":
 ###
 #Data Preparation 
 ###
-#    nameConvert = {'Chimp': 'Clint_Chimp', 'Gorilla': 'Susie_Gorilla', 'Orangutan': 'Susie_Orangutan'}
     tools.dataPrepare.faSize(genomeFiles)
-#    tools.dataPrepare.faSize(annotation)
     tools.dataPrepare.faTwoBit(genomeFiles)
- #   tools.dataPrepare.gffToPsl(annotation+args.refGenome+".gff",
-  #                              annotation+args.refGenome+".size",
-  #                              genomeFiles+args.refGenome+".size")
-  #  tools.dataPrepare.gffRemoveRNA(annotation+args.targetGenomes+".gff",
-  #                          annotation+args.targetGenomes+".no-mRNA.gff")
     tools.dataPrepare.sizeToBed(genomeFiles+args.refGenome+".size",args.refGenome)
     refName = args.refGenome
     targetName = args.targetGenomes
-    #if args.targetGenomes in nameConvert:
-  #      targetName = nameConvert[args.targetGenomes]
- #   else:
-  #      targetName = args.targetGenomes
-  #  if args.refGenome in nameConvert:
-  #      refName = nameConvert[args.refGenome]
-  #  else:
-  #      refName = args.refGenome
 ###
 #chaining
 ###
-
     tools.basic.testMkdir("chaining")
     halliftoverCmd = ['halLiftover','--outPSL',
                        args.hal,refName,genomeFiles+args.refGenome+".bed",
@@ -91,11 +65,26 @@ if args.option == "preprocess":
                        +"-"+args.targetGenomes+".psl"]
     halliftover = subprocess.Popen(halliftoverCmd)
     halliftover.wait()
+    halsyntenyCmd = ['halSynteny','--queryGenome',
+                       args.refGenome,
+                       '--targetGenome',
+                       args.targetGenomes,
+                       "--alignmentIsPsl",
+                       "chaining/"+args.refGenome+"-"+args.targetGenomes+".psl",
+                       "chaining/"+args.refGenome+"-"+args.targetGenomes+".syn.psl"]
+    halsynteny = subprocess.Popen(halsyntenyCmd)
+    halsynteny.wait()
     pslPosTarget = subprocess.Popen(['pslPosTarget',"chaining/"
                                     +args.refGenome+"-"
                                     +args.targetGenomes
                                     +".psl","chaining/"
                                     +args.refGenome+"-"+args.targetGenomes+".pos.psl"])
+    pslPosTarget.wait()    
+    pslPosTarget = subprocess.Popen(['pslPosTarget',"chaining/"
+                                    +args.refGenome+"-"
+                                    +args.targetGenomes
+                                    +".syn.psl","chaining/"
+                                    +args.refGenome+"-"+args.targetGenomes+".syn.pos.psl"])
     pslPosTarget.wait()    
     axtChain = subprocess.Popen(
                             ['axtChain', 
@@ -114,25 +103,67 @@ if args.option == "preprocess":
                             +"-"+args.targetGenomes+".pos.psl.chain"]
                             )
     axtChain.wait()
+    axtChain = subprocess.Popen(
+                            ['axtChain', 
+                            '-psl', 
+                            '-verbose=0', 
+                            '-linearGap=medium',
+                            cwd +"/chaining/"
+                            + args.refGenome
+                            + "-"+args.targetGenomes
+                            + ".syn.pos.psl",
+                            genomeFiles+args.targetGenomes
+                            +".fa.2bit",
+                            genomeFiles+args.refGenome
+                            +".fa.2bit",
+                            cwd+"/chaining/"+args.refGenome
+                            +"-"+args.targetGenomes+".syn.pos.psl.chain"]
+                            )
+    axtChain.wait()
 if args.option == "projection":
-    tools.dataPrepare.targetGffExtend(annotation+args.refGenome+".gff",
-                                    genomeFiles+args.refGenome+".size",args.extend,
-                                    annotation+args.refGenome+".extend.gff")
-    tools.dataPrepare.gffToPslBed(annotation+args.refGenome+".extend.gff",
+    tools.dataPrepare.getmRNA(annotation+args.refGenome+".gff",annotation+args.refGenome)
+    tools.dataPrepare.getCDS(annotation+args.refGenome+".gff",annotation+args.refGenome)
+    tools.dataPrepare.getmRNA(annotation+args.targetGenomes+".gff",annotation+args.targetGenomes)
+    tools.dataPrepare.getCDS(annotation+args.targetGenomes+".gff",annotation+args.targetGenomes)
+    tools.dataPrepare.gffToPslBed(annotation+args.refGenome+".cds.gff",
                         genomeFiles+args.refGenome+".size")
-    tools.dataPrepare.targetGffExtend(annotation+args.targetGenomes+".gff",
-                            genomeFiles+args.targetGenomes+".size",
-                            args.extend,
-                            annotation+args.targetGenomes+".extend.gff")
-    tools.dataPrepare.gffToSize(annotation+args.refGenome+".extend.gff")
-    tools.dataPrepare.gffToSize(annotation+args.targetGenomes+".extend.gff")
+    tools.dataPrepare.gffToSize(annotation+args.refGenome+".cds.gff")
+    tools.dataPrepare.gffToSize(annotation+args.targetGenomes+".cds.gff")
+    distGff = open(annotation+args.targetGenomes+".mRNA.gff.overlap","w")
+    overlapGff = subprocess.Popen(
+                            ['perl',
+                            os.path.split(os.path.realpath(__file__))[0]
+                            + "/extend/findOverlap_CalcuDist.pl",
+                            annotation+args.targetGenomes
+                            + ".mRNA.gff"],
+                            stdout = distGff)
+    overlapGff.wait()
+    distGff.close()
+    distGff = open(annotation+args.refGenome+".mRNA.gff.overlap","w")
+    overlapGff = subprocess.Popen(
+                            ['perl',
+                            os.path.split(os.path.realpath(__file__))[0]
+                            + "/extend/findOverlap_CalcuDist.pl",
+                            annotation+args.refGenome
+                            + ".mRNA.gff"],
+                            stdout = distGff)
+    overlapGff.wait()
+    distGff.close()
     pslMap = subprocess.Popen(
                             ['pslMap',
                             '-chainMapFile',
-                            annotation+args.refGenome+".extend.gff.psl",
+                            annotation+args.refGenome+".cds.gff.psl",
                             cwd+"/chaining/"+args.refGenome
                             +"-"+args.targetGenomes+".pos.psl.chain",
                             annotation+args.targetGenomes+".gff.psl"])
+    pslMap.wait()
+    pslMap = subprocess.Popen(
+                            ['pslMap',
+                            '-chainMapFile',
+                            annotation+args.refGenome+".cds.gff.psl",
+                            cwd+"/chaining/"+args.refGenome
+                            +"-"+args.targetGenomes+".syn.pos.psl.chain",
+                            annotation+args.targetGenomes+".syn.gff.psl"])
     pslMap.wait()
     pslMapPostChain = subprocess.Popen(
                             ['pslMapPostChain',
@@ -141,12 +172,28 @@ if args.option == "projection":
                             +args.targetGenomes
                             +".gff.post.psl"])
     pslMapPostChain.wait()
+    pslMapPostChain = subprocess.Popen(
+                            ['pslMapPostChain',
+                            annotation+args.targetGenomes
+                            +".syn.gff.psl",annotation
+                            +args.targetGenomes
+                            +".syn.gff.post.psl"])
+    pslMapPostChain.wait()
     sortPsl = open(annotation+args.targetGenomes+".gff.post.sort.psl","w")
     sort = subprocess.Popen(
                             ['sort','-k14,14',
                             '-k16,16n',
                             annotation+args.targetGenomes
                             +".gff.post.psl"],
+                            stdout = sortPsl)
+    sort.wait()
+    sortPsl.close()
+    sortPsl = open(annotation+args.targetGenomes+".syn.gff.post.sort.psl","w")
+    sort = subprocess.Popen(
+                            ['sort','-k14,14',
+                            '-k16,16n',
+                            annotation+args.targetGenomes
+                            +".syn.gff.post.psl"],
                             stdout = sortPsl)
     sort.wait()
     sortPsl.close()
@@ -162,7 +209,34 @@ if args.option == "projection":
                             stdout = pslGff)
     pslToGff.wait()
     pslGff.close()
+    pslGff = open(annotation+args.targetGenomes+".syn.gff.post.psl.sort.gff","w")
+    pslToGff = subprocess.Popen(
+                            ['perl',
+                            os.path.split(os.path.realpath(__file__))[0]
+                            + "/extend/blat2gff.pl",
+                            "-version",
+                            "2",
+                            annotation+args.targetGenomes
+                            + ".syn.gff.post.sort.psl"],
+                            stdout = pslGff)
+    pslToGff.wait()
+    pslGff.close()
     tools.basic.testMkdir("ortholog")
+    interect = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect","w")
+    gffIntersect = subprocess.Popen(
+                            ['bedtools',
+                            'intersect',
+                            '-wo',
+                            '-s',
+                            '-a',
+                            annotation
+                            + args.targetGenomes+".cds.gff",
+                            '-b',
+                            annotation+args.targetGenomes
+                            +".syn.gff.post.psl.sort.gff"],
+                            stdout = interect)
+    gffIntersect.wait()
+    interect.close()
     interect = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect","w")
     gffIntersect = subprocess.Popen(
                             ['bedtools',
@@ -171,7 +245,7 @@ if args.option == "projection":
                             '-s',
                             '-a',
                             annotation
-                            + args.targetGenomes+".extend.gff",
+                            + args.targetGenomes+".cds.gff",
                             '-b',
                             annotation+args.targetGenomes
                             +".gff.post.psl.sort.gff"],
@@ -179,8 +253,9 @@ if args.option == "projection":
     gffIntersect.wait()
     interect.close()
     tools.basic.getOrthologPre(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect")
+    tools.basic.getOrthologPre(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect")
     tools.basic.getOrtholog(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog")
-
+    tools.basic.getOrtholog(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect.ortholog")
 
 ###
 #make shell
@@ -211,21 +286,23 @@ if args.option == "combine":
 
     )
     tools.basic.orthologToBed(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog")
+    tools.basic.orthologToBed(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect.ortholog")
     tools.basic.calculateOverlap(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog")
+    tools.basic.calculateOverlap(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect.ortholog.sorted.bed",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect.ortholog")
     tools.filterData.rbhPrepare(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap",
                                 cwd+ "/ortholog/"+ args.refGenome+ "-"+ args.targetGenomes+ ".gff.intersect.ortholog.overlap.cut.id.ident",
-                                annotation+args.refGenome+".extend.gff.size",
-                                annotation+args.targetGenomes+".extend.gff.size",
+                                annotation+args.refGenome+".cds.gff.size",
+                                annotation+args.targetGenomes+".cds.gff.size",
                                 args.refGenome,
                                args.targetGenomes )
-#    getRbh = subprocess.Popen(
-#            ["perl",
-#            os.path.split(os.path.realpath(__file__))[0]+"/extend/getRbh_v2.pl",
-#            cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab",
-#            args.refGenome,
-#            args.targetGenomes,
-#            cwd+"/ortholog/"])
-#    getRbh.wait()
+    tools.filterData.rbhPrepare(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap",
+                                cwd+ "/ortholog/"+ args.refGenome+ "-"+ args.targetGenomes+ ".gff.intersect.ortholog.overlap.cut.id.ident",
+                                annotation+args.refGenome+".cds.gff.size",
+                                annotation+args.targetGenomes+".cds.gff.size",
+                                args.refGenome,
+                               args.targetGenomes )
+
+
 if args.option == "final":
 ############class ortholog into 1:1 1:n n:1 and n:n
     classFile = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class","w")
@@ -281,7 +358,7 @@ if args.option == "final":
     rbh = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.class.genesynteny.prime.rbh","w")
     getRbh = subprocess.Popen(
         ["perl",
-            os.path.split(os.path.realpath(__file__))[0]+"/extend/getRbh_v10.pl",
+            os.path.split(os.path.realpath(__file__))[0]+"/extend/getRbh_v11.pl",
             cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.class.genesynteny.prime",
             args.refGenome,
             args.targetGenomes,
@@ -290,5 +367,43 @@ if args.option == "final":
     getRbh.wait()
     rbh.close()
 #####combine and generate the final ortholog table
-    tools.filterData.makeOrth(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.class.genesynteny.prime",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.class.genesynteny.prime.rbh",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.best",cwd+"/ortholog/"+args.targetGenomes+"-"+args.refGenome+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.best")
-    
+    tools.filterData.makeRbh(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.class.genesynteny.prime",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.class.genesynteny.prime.rbh",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.best",cwd+"/ortholog/"+args.targetGenomes+"-"+args.refGenome+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.best")
+    nooverlap = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap","w")
+    overlapRemove = subprocess.Popen(
+                            ['perl',
+                            os.path.split(os.path.realpath(__file__))[0]
+                            + "/extend/remove_overlap.pl",
+                            cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class",
+                            annotation+args.refGenome+".mRNA.gff.overlap",
+                            annotation+args.targetGenomes+".mRNA.gff.overlap",
+                            cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.best"],
+                            stdout = nooverlap)
+    overlapRemove.wait()
+    classFile = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class","w")
+    orthologClass = subprocess.Popen(
+        ["perl",
+           os.path.split(os.path.realpath(__file__))[0]+"/extend/orthologClass.pl",
+           cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap"],
+        stdout = classFile)
+    orthologClass.wait()
+    classFile.close()
+    tools.filterData.merge(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.syn.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab",cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.class.genesynteny.prime")
+#    tools.filterData.orthClass(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog")
+    classFile = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog.class","w")
+    orthologClass = subprocess.Popen(
+        ["perl",
+           os.path.split(os.path.realpath(__file__))[0]+"/extend/orthologClass.pl",
+           cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog"],
+        stdout = classFile)
+    orthologClass.wait()
+    classFile.close()
+    tools.filterData.filtering(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog.class")
+    classFile = open(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog.class.filtered.class","w")
+    orthologClass = subprocess.Popen(
+        ["perl",
+           os.path.split(os.path.realpath(__file__))[0]+"/extend/orthologClass.pl",
+           cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog.class.filtered"],
+        stdout = classFile)
+    orthologClass.wait()
+    classFile.close()
+    tools.filterData.orthClass(cwd+"/ortholog/"+args.refGenome+"-"+args.targetGenomes+".gff.intersect.ortholog.sorted.bed.sorted.merge.bed.overlap.tab.class.nooverlap.class.pos.ortholog.class.filtered.class")

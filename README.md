@@ -50,7 +50,7 @@ chr10 protein_coding CDS 45303439 45304422 . - 0 Parent=ENSG00000256574;
 perl RFO_pipeline.pl --step datapre --hal example.hal --outdir output input.tsv
 ```
 
-2.Extract homologs
+2.Extract orthologs
 
 ```
 perl RFO_pipeline.pl --step ortholog --hal example.hal --outdir output input.tsv
@@ -60,25 +60,13 @@ sh orthologStep2.sh
 sh orthologStep3.sh
 ```
 
-3.Construct homolog groups
 
-```
-perl RFO_pipeline.pl --step homologGroup --hal example.hal --outdir output input.tsv
-```
-
-4.Construct gene family
-
-```
-perl RFO_pipeline.pl --step genefamily --hal example.hal --outdir output input.tsv
-```
-
-5.Get the Reference-free Ortholog table
+3.Get the Reference-free Ortholog table
 ```
 perl RFO_pipeline.pl --step merge --hal example.hal --outdir output input.tsv
-perl RFO_pipeline.pl --step final --hal example.hal --outdir output input.tsv
 ```
 
-This pipeline will output the reference-free ortholog table to `final/`.
+This pipeline will output the reference-free ortholog table to `merge/`.
 
 
 # Citation
